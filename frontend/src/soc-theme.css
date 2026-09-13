@@ -1,0 +1,113 @@
+/* ===== ENHANCED CYBERPUNK CSS FOR SOC ===== */
+:root {
+  --neon-cyan: #06b6d4;
+  --neon-magenta: #ec4899;
+  --neon-green: #10b981;
+}
+
+/* Radar Animation for Map */
+@keyframes radar-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  background: conic-gradient(from 0deg, transparent 70%, rgba(6, 182, 212, 0.4) 100%);
+  transform-origin: 0% 0%;
+  animation: radar-spin 4s linear infinite;
+}
+
+/* Glitch Effect for Critical Alerts */
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+.glitch-text {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--severity-critical);
+  text-shadow: 2px 0 var(--neon-magenta), -2px 0 var(--neon-cyan);
+}
+
+/* Matrix scrolling feed */
+.matrix-bg {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(16, 185, 129, 0.03) 0px,
+    rgba(16, 185, 129, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Hologram text */
+.hologram-text {
+  background: linear-gradient(to right, #fff, var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+/* Premium Card hover states */
+.chart-card {
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+.chart-card:hover {
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.15), 0 0 0 1px rgba(6, 182, 212, 0.5) inset;
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+/* Animated hex background for overview */
+.hex-bg {
+  background-image: radial-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Floating Particles */
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+.particle {
+  position: fixed;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  background-color: var(--accent-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-cyan);
+  animation: floatUp 15s infinite linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+.particle:nth-child(2) { left: 30%; animation-duration: 18s; animation-delay: -5s; }
+.particle:nth-child(3) { left: 50%; animation-duration: 14s; animation-delay: -2s; width: 6px; height: 6px; }
+.particle:nth-child(4) { left: 70%; animation-duration: 22s; animation-delay: -8s; }
+.particle:nth-child(5) { left: 90%; animation-duration: 16s; animation-delay: -1s; }
