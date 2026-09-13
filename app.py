@@ -11,7 +11,8 @@ import sqlite3
 import os
 import shutil
 
-app = Flask(__name__)
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend", "build")
+app = Flask(__name__, static_folder=static_dir, static_url_path="")
 CORS(app)
 
 # ============================================================
@@ -547,6 +548,28 @@ def update_alert_status(alert_id):
         return jsonify({"success": True, "message": f"Alert {alert_id} updated to {new_status}"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+# STATIC / CLIENT-SIDE SPA ROUTING
+# ============================================================
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return app.send_static_file(path)
+    index_path = os.path.join(app.static_folder, "index.html")
+    if os.path.exists(index_path):
+        return app.send_static_file("index.html")
+    return jsonify({"status": "CyberSOC API is running", "message": "Frontend build not found"}), 200
+
+@app.errorhandler(404)
+def not_found(e):
+    index_path = os.path.join(app.static_folder, "index.html")
+    if os.path.exists(index_path):
+        return app.send_static_file("index.html")
+    return jsonify({"error": "Resource not found"}), 404
 
 
 # ============================================================
